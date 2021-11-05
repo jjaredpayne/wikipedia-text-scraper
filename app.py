@@ -1,6 +1,6 @@
 from typing import KeysView
 from flask import Flask, request, jsonify
-from app.main import app
+# from app.main import app
 import pywikibot
 from flask_cors import CORS, cross_origin
 import wikipedia
