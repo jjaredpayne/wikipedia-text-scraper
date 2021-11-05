@@ -26,7 +26,6 @@ def retrieveInfo():
     # Search for page and use the first result
     result = wikipedia.search(wikipage)
     page = wikipedia.suggest(wikipage)
-    print('wikipage result 0: ' + result[0])
 
     try:
         page = wikipedia.page(result[0])
@@ -34,11 +33,13 @@ def retrieveInfo():
         page = wikipedia.page(result[1])
 
     headingMarkUp = "=== " + heading.lower() + " ==="
+    print(headingMarkUp)
 
     sectionArray = page.content.split("\n")
 
     count = 0
     for i in sectionArray:
+        print('looking at section: ' + count)
         if sectionArray[count].find(headingMarkUp):
             print(sectionArray[count])
             return sectionArray[count]
