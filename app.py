@@ -6,7 +6,7 @@ import wikipedia
 
 app = Flask(__name__)
 CORS(app)
-app.confg['CORS_HEADERS'] = 'Content-Type'
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/")
