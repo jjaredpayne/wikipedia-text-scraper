@@ -1,7 +1,6 @@
 from typing import KeysView
 from flask import Flask, request, jsonify
 # from app.main import app
-import pywikibot
 from flask_cors import CORS, cross_origin
 import wikipedia
 
@@ -9,6 +8,11 @@ app = Flask(__name__)
 CORS(app)
 app.confg['CORS_HEADERS'] = 'Content-Type'
 
+
+@app.route("/")
+@cross_origin
+def home_view():
+        return "<h1>wiki-text-scraper-361</h1>"
 
 @app.route("/requestText", methods=['GET', 'POST'])
 @cross_origin()
