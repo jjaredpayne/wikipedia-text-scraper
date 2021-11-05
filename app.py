@@ -19,31 +19,60 @@ def home_view():
 def retrieveInfo():
     print("RequestText received")
     if request.method == "GET":
+        # Set variables for accessing page section
         wikipage = request.args.get('wikipage', '')
         heading = request.args.get('heading', '')
+        headingMarkUp = "== " + heading + " =="
 
-    print('wikipage: ' + wikipage)
-    # Search for page and use the first result
-    result = wikipedia.search(wikipage)
-    page = wikipedia.suggest(wikipage)
+        # Perform search for the wikipage (places results in
+        # an array)
+        result = wikipedia.search(wikipage)
 
-    try:
-        page = wikipedia.page(result[0])
-    except:
-        page = wikipedia.page(result[1])
+        # if the first result doesn't work, use the 2nd result
+        # if neither work, return an error
+        try:
+            try:
+                page = wikipedia.page(result[0])
+            except:
+                page = wikipedia.page(result[1])
+        except:
+            return "Error. Wikipedia article not found."
 
-    headingMarkUp = "=== " + heading.lower() + " ==="
-    print(headingMarkUp)
+        # When a page is found, split it into lines
+        searchArray = page.content.split("\n")
+        count = 0
+        # compare each line.lower to the headingmarkup.lower and set
+        # and set headingMarkUp = line for the correct capitalization
+        for i in searchArray:
+            if i.lower().find(headingMarkUp.lower()) == True:
+                headingMarkUp = i
+                break
+            count += 1
 
-    sectionArray = page.content.split("\n")
+        # split page into two elements. Element 1 holds the entirety
+        # of the page after the headingMarkUp
+        pageArray = page.content.split(headingMarkUp)
 
-    count = 0
-    for i in sectionArray:
-        print('looking at section: ' + count)
-        if sectionArray[count].find(headingMarkUp):
-            print(sectionArray[count])
-            return sectionArray[count]
-        count += 1
+        # Add each line after the heading until the next section markup is found
+        sectionArray = pageArray[1].split("\n")
+        count = 0
+        returnSection = ''
+        for i in sectionArray:
+            if sectionArray[count].find('==') != -1:
+                return returnSection
+            returnSection += i
+            count += 1
+
+
+
+    # for i in sectionArray:
+    #     print("sectArray index: " + sectionArray[count])
+    #     if sectionArray[count].find(headingMarkUp) == True:
+    #         print("Heading found")
+
+    #         break
+    #     count += 1
+    # return "Not Found. Please revise your search criteria"
 
     # # Creates Wikipedia site object
     # site = pywikibot.Site('wikipedia:en')
