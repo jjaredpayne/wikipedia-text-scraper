@@ -10,12 +10,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/")
-@cross_origin
+#@cross_origin
 def home_view():
         return "<h1>wiki-text-scraper-361</h1>"
 
 @app.route("/requestText", methods=['GET', 'POST'])
-@cross_origin()
+#@cross_origin()
 def retrieveInfo():
     print("RequestText received")
     if request.method == "GET":
