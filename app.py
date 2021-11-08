@@ -1,5 +1,5 @@
 from typing import KeysView
-from flask import Flask, request, jsonify
+from flask import Flask, json, request, jsonify
 # from app.main import app
 from flask_cors import CORS
 import wikipedia
@@ -12,7 +12,7 @@ CORS(app)
 def home_view():
     heading = "<h1>wiki-text-scraper-361</h1>"
     paragraph = "<p>Request text from a Wikipedia article.<br>"
-        return heading + paragraph
+    return heading + paragraph
 
 @app.route("/requestText", methods=['GET', 'POST'])
 def retrieveInfo():
@@ -57,6 +57,7 @@ def retrieveInfo():
         returnSection = ''
         for i in range(0, len(sectionArray)):
             if sectionArray[i].find('==') != -1:
+                returnSection = jsonify(returnSection)
                 returnSection.headers.add('Access-Control-Allow-Origin', '*')
                 return returnSection
             returnSection += sectionArray[i]
