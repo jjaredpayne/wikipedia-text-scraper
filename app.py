@@ -14,9 +14,11 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def home_view():
         body =  "<h1>wiki-text-scraper-361</h1>"
         body += "<p>Request text from a specified Wikipedia article heading or subheading.<br>"
+        body += "The microservice will search for the passed wikipage and will return the first result, if available."
         body += "The response will include all article text between the specified (sub)heading and the next (sub)heading.<br>"
         body += "If a heading is not found or specified, the article summary is returned.<br><br>"
-        body += "https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading"
+        body += "https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading</p>"
+        
         return body
 
 @app.route("/requestText", methods=['GET', 'POST'])
