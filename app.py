@@ -1,5 +1,5 @@
 from typing import KeysView
-from flask import Flask, request, jsonify
+from flask import Flask, json, request, jsonify
 # from app.main import app
 from flask_cors import CORS, cross_origin
 import wikipedia
@@ -15,9 +15,8 @@ def home_view():
         body =  "<h1>wiki-text-scraper-361</h1>"
         body += "<p>Request text from a specified Wikipedia article heading or subheading.<br>"
         body += "The response will include all article text between the specified (sub)heading and the next (sub)heading.<br>"
-        body += "If a heading is not found or specified, the article summary is returned.<br>"
+        body += "If a heading is not found or specified, the article summary is returned.<br><br>"
         body += "https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading"
-
         return body
 
 @app.route("/requestText", methods=['GET', 'POST'])
@@ -29,6 +28,9 @@ def retrieveInfo():
         wikipage = request.args.get('wikipage', '')
         heading = request.args.get('heading', '')
         headingMarkUp = "== " + heading + " =="
+        returnSection = {
+                'wikitext': ''
+        }
 
         # Perform search for the wikipage (places results in
         # an array)
@@ -65,12 +67,15 @@ def retrieveInfo():
         try:
             sectionArray = pageArray[1].split("\n")
         except:
-            return wikipedia.summary(page)
+            returnSection["wikitext"] = wikipedia.summary(page)
+            return returnSection
         
         # If heading is found, add each line to the requested text until the
         # next heading is found.
-        returnSection = ''
+
         for i in range(0, len(sectionArray)):
             if sectionArray[i].find('==') != -1:
                 return returnSection
-            returnSection += sectionArray[i]
+            print(returnSection)
+            print(returnSection['wikitext'])
+            returnSection['wikitext'] += sectionArray[i]
