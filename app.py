@@ -39,11 +39,9 @@ def retrieveInfo():
             return "Error. Wikipedia article not found."
 
         # When a page is found, split it into lines
-        try:
-            searchArray = page.content.split("\n")
-        except:
-            return wikipedia.summary(wikipage)
-            
+        searchArray = page.content.split("\n")
+        return wikipedia.summary(page)
+
         count = 0
         # compare each line.lower to the headingmarkup.lower and set
         # and set headingMarkUp = line for the correct capitalization
@@ -58,7 +56,10 @@ def retrieveInfo():
         pageArray = page.content.split(headingMarkUp)
 
         # Add each line after the heading until the next section markup is found
-        sectionArray = pageArray[1].split("\n")
+        try:
+            sectionArray = pageArray[1].split("\n")
+        except:
+            wikipedia.summary(page)
         returnSection = ''
         for i in range(0, len(sectionArray)):
             if sectionArray[i].find('==') != -1:
