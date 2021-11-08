@@ -58,7 +58,7 @@ def retrieveInfo():
         try:
             sectionArray = pageArray[1].split("\n")
         except:
-            wikipedia.summary(page)
+            return wikipedia.summary(page)
         returnSection = ''
         for i in range(0, len(sectionArray)):
             if sectionArray[i].find('==') != -1:
