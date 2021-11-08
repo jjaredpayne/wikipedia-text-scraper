@@ -12,7 +12,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route("/")
 #@cross_origin
 def home_view():
-        return "<h1>wiki-text-scraper-361</h1>"
+        body =  "<h1>wiki-text-scraper-361</h1>"
+        body += "<p>Request text from a specified Wikipedia article heading or subheading.<br>"
+        body += "The response will include all article text between the specified (sub)heading and the next (sub)heading.<br>"
+        body += "If a heading is not found or specified, the article summary is returned.<br>"
+        body += "https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading"
+
+        return body
 
 @app.route("/requestText", methods=['GET', 'POST'])
 #@cross_origin()
