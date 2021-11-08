@@ -40,7 +40,6 @@ def retrieveInfo():
 
         # When a page is found, split it into lines
         searchArray = page.content.split("\n")
-        return wikipedia.summary(page)
 
         count = 0
         # compare each line.lower to the headingmarkup.lower and set
