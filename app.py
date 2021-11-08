@@ -1,6 +1,5 @@
 from typing import KeysView
 from flask import Flask, json, request, jsonify
-# from app.main import app
 from flask_cors import CORS, cross_origin
 import wikipedia
 
@@ -10,19 +9,17 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/")
-#@cross_origin
 def home_view():
-        body =  "<h1>wiki-text-scraper-361</h1>"
-        body += "<p>Request text from a specified Wikipedia article heading or subheading.<br>"
-        body += "The microservice will search for the passed wikipage and will return the first result, if available."
-        body += "The response will include all article text between the specified (sub)heading and the next (sub)heading.<br>"
-        body += "If a heading is not found or specified, the article summary is returned.<br><br>"
-        body += "https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading</p>"
-        
-        return body
+    body = "<h1>wiki-text-scraper-361</h1>"
+    body += "<p>Request text from a specified Wikipedia article heading or subheading.<br>"
+    body += "The microservice will search for the passed wikipage and will return the first result, if available.<br>"
+    body += "The response will include all article text between the specified (sub)heading and the next (sub)heading.<br>"
+    body += "If a heading is not found or specified, the article summary is returned.<br><br>"
+    body += "Request:<br>https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading<br><br>"
+    body += 'Response:<br>[{"wikiText":"Requested Text"}]</p>'
+    return body
 
 @app.route("/requestText", methods=['GET', 'POST'])
-#@cross_origin()
 def retrieveInfo():
     print("RequestText received")
     if request.method == "GET":
@@ -74,7 +71,6 @@ def retrieveInfo():
         
         # If heading is found, add each line to the requested text until the
         # next heading is found.
-
         for i in range(0, len(sectionArray)):
             if sectionArray[i].find('==') != -1:
                 return returnSection
