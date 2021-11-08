@@ -20,7 +20,7 @@ def home_view():
         return 
 
 @app.route("/requestText", methods=['GET', 'POST'])
-#@cross_origin()
+@cross_origin()
 def retrieveInfo():
     print("RequestText received")
     if request.method == "GET":
