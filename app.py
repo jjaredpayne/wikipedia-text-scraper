@@ -18,9 +18,9 @@ def home_view():
     body += "Request:<br>https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading<br><br>"
     body += 'Response:<br>[{<br>'
     body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"wikiText":"Requested Text",</div><br>'
+        body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"heading":"Returned Heading"</div><br>'
     body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"page":"WikipediaPage Page Title",</div><br>'
     body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"url":"WikipediaPage URL",</div><br>'
-    body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"heading":"Returned Heading"</div><br>'
     body += '}]</p>'
     return body
 
