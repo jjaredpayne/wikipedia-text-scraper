@@ -16,10 +16,15 @@ def home_view():
     body += "The response will include all article text between the specified (sub)heading and the next (sub)heading.<br>"
     body += "If a heading is not found or specified, the article summary is returned.<br><br>"
     body += "Request:<br>https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading<br><br>"
-    body += 'Response:<br>[{"wikiText":"Requested Text"}]</p>'
+    body += 'Response:<br>[{<br>'
+    body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"wikiText":"Requested Text",</div><br>'
+    body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"page":"WikipediaPage Page Title",</div><br>'
+    body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"url":"WikipediaPage URL",</div><br>'
+    body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"heading":"Returned Heading"</div><br>'
+    body += '}]</p>'
     return body
 
-@app.route("/requestText", methods=['GET', 'POST'])
+@app.route("/requestText", methods=['GET'])
 def retrieveInfo():
     print("RequestText received")
     if request.method == "GET":
@@ -28,7 +33,9 @@ def retrieveInfo():
         heading = request.args.get('heading', '')
         headingMarkUp = "== " + heading + " =="
         returnSection = {
-                'wikitext': ''
+                "wikitext": "",
+                "page": "",
+                "heading": ""
         }
 
         # Perform search for the wikipage (places results in
@@ -43,7 +50,7 @@ def retrieveInfo():
             except:
                 page = wikipedia.page(result[1])
         except:
-            return "Error. Wikipedia article not found."
+            return "Error. Wikipedia page not found."
 
         # When a page is found, split it into lines
         searchArray = page.content.split("\n")
@@ -60,12 +67,15 @@ def retrieveInfo():
         # split page into two elements. Element 1 holds the entirety
         # of the page after the headingMarkUp
         pageArray = page.content.split(headingMarkUp)
-
+        returnSection['page'] = str(page)
+        returnSection['url'] = str(page.url)
+        returnSection['heading'] = headingMarkUp.replace("==", '').strip()
         # Add each line after the heading until the next heading is found
         # If heading not found, return page summary
         try:
             sectionArray = pageArray[1].split("\n")
         except:
+            returnSection['heading'] = "Summary"
             returnSection["wikitext"] = wikipedia.summary(page)
             return returnSection
         
@@ -74,6 +84,11 @@ def retrieveInfo():
         for i in range(0, len(sectionArray)):
             if sectionArray[i].find('==') != -1:
                 return returnSection
-            print(returnSection)
-            print(returnSection['wikitext'])
             returnSection['wikitext'] += sectionArray[i]
+
+@app.route("/requestText", methods=['POST'])
+def retrieveInfoPost():
+    print("RequestText received")
+    if request.method == "POST":
+        body = "<h> 404. That resource is not available.</H><p>Do not POST, GET.</p>"
+        return body
