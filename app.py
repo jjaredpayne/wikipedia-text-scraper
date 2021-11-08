@@ -1,26 +1,20 @@
 from typing import KeysView
 from flask import Flask, request, jsonify
 # from app.main import app
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import wikipedia
 
 app = Flask(__name__)
 CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/")
-#@cross_origin
 def home_view():
     heading = "<h1>wiki-text-scraper-361</h1>"
     paragraph = "<p>Request text from a Wikipedia article.<br>"
-    paragraph1 ="
-
-
-        return 
+        return heading + paragraph
 
 @app.route("/requestText", methods=['GET', 'POST'])
-@cross_origin()
 def retrieveInfo():
     print("RequestText received")
     if request.method == "GET":
