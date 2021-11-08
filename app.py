@@ -54,62 +54,17 @@ def retrieveInfo():
         # of the page after the headingMarkUp
         pageArray = page.content.split(headingMarkUp)
 
-        # Add each line after the heading until the next section markup is found
+        # Add each line after the heading until the next heading is found
+        # If heading not found, return page summary
         try:
             sectionArray = pageArray[1].split("\n")
         except:
             return wikipedia.summary(page)
+        
+        # If heading is found, add each line to the requested text until the
+        # next heading is found.
         returnSection = ''
         for i in range(0, len(sectionArray)):
             if sectionArray[i].find('==') != -1:
                 return returnSection
             returnSection += sectionArray[i]
-
-    # for i in sectionArray:
-    #     print("sectArray index: " + sectionArray[count])
-    #     if sectionArray[count].find(headingMarkUp) == True:
-    #         print("Heading found")
-
-    #         break
-    #     count += 1
-    # return "Not Found. Please revise your search criteria"
-
-    # # Creates Wikipedia site object
-    # site = pywikibot.Site('wikipedia:en')
-
-    # # Creates Wikipedia page Object
-    # page = pywikibot.Page(site, wikipage)
-    # text = page.text
-    # count = 0
-
-    # # Look for Redirect and update destination if found
-    # for i in wikitextparser.parse(text).sections:
-    #     sectiontext = str(wikitextparser.parse(text).sections[count])
-    #     print("Section" + str(count) + " "
-    #           + str(wikitextparser.parse(text).sections[count]))
-    #     count += 1
-    #     if re.search("REDIRECT", sectiontext):
-    #         print("Redirect found")
-    #         print(re.search(r'\[\[(.*?)\]\]', sectiontext))
-    #         newpage = re.search(r'\[\[(.*?)\]\]', sectiontext)
-    #         newpage = newpage.group()
-    #         newpage = newpage.replace("[[", "")
-    #         newpage = newpage.replace("]]", "")
-    #         print(newpage)
-    #         page = pywikibot.Page(site, newpage)
-    #         text = page.text
-    #         break
-    #         print(text)
-
-    # # Look for heading in each section
-    # count = 0
-    # for i in wikitextparser.parse(text).sections:
-    #     print("Section" + str(count) + " " + str(wikitextparser.parse(text).sections[count]))
-    #     sectionText = str(wikitextparser.parse(text).sections[count])
-    #     if ("=="+heading).lower() in sectionText.lower():
-    #         print("heading " + heading + " Found!")
-    #         textJSON = {"text": str(wikitextparser.parse(text).sections[0])}
-    #         print(textJSON)
-    #         return jsonify(textJSON)
-    #     count += 1
-    # return ''
