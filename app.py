@@ -12,7 +12,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route("/")
 #@cross_origin
 def home_view():
-        return "<h1>wiki-text-scraper-361</h1>"
+    heading = "<h1>wiki-text-scraper-361</h1>"
+    paragraph = "<p>Request text from a Wikipedia article.<br>"
+    paragraph1 ="
+
+
+        return 
 
 @app.route("/requestText", methods=['GET', 'POST'])
 #@cross_origin()
@@ -55,61 +60,9 @@ def retrieveInfo():
 
         # Add each line after the heading until the next section markup is found
         sectionArray = pageArray[1].split("\n")
-        count = 0
         returnSection = ''
-        for i in sectionArray:
-            if sectionArray[count].find('==') != -1:
+        for i in range(0, len(sectionArray)):
+            if sectionArray[i].find('==') != -1:
+                returnSection.headers.add('Access-Control-Allow-Origin', '*')
                 return returnSection
-            returnSection += i
-            count += 1
-
-
-
-    # for i in sectionArray:
-    #     print("sectArray index: " + sectionArray[count])
-    #     if sectionArray[count].find(headingMarkUp) == True:
-    #         print("Heading found")
-
-    #         break
-    #     count += 1
-    # return "Not Found. Please revise your search criteria"
-
-    # # Creates Wikipedia site object
-    # site = pywikibot.Site('wikipedia:en')
-
-    # # Creates Wikipedia page Object
-    # page = pywikibot.Page(site, wikipage)
-    # text = page.text
-    # count = 0
-
-    # # Look for Redirect and update destination if found
-    # for i in wikitextparser.parse(text).sections:
-    #     sectiontext = str(wikitextparser.parse(text).sections[count])
-    #     print("Section" + str(count) + " "
-    #           + str(wikitextparser.parse(text).sections[count]))
-    #     count += 1
-    #     if re.search("REDIRECT", sectiontext):
-    #         print("Redirect found")
-    #         print(re.search(r'\[\[(.*?)\]\]', sectiontext))
-    #         newpage = re.search(r'\[\[(.*?)\]\]', sectiontext)
-    #         newpage = newpage.group()
-    #         newpage = newpage.replace("[[", "")
-    #         newpage = newpage.replace("]]", "")
-    #         print(newpage)
-    #         page = pywikibot.Page(site, newpage)
-    #         text = page.text
-    #         break
-    #         print(text)
-
-    # # Look for heading in each section
-    # count = 0
-    # for i in wikitextparser.parse(text).sections:
-    #     print("Section" + str(count) + " " + str(wikitextparser.parse(text).sections[count]))
-    #     sectionText = str(wikitextparser.parse(text).sections[count])
-    #     if ("=="+heading).lower() in sectionText.lower():
-    #         print("heading " + heading + " Found!")
-    #         textJSON = {"text": str(wikitextparser.parse(text).sections[0])}
-    #         print(textJSON)
-    #         return jsonify(textJSON)
-    #     count += 1
-    # return ''
+            returnSection += sectionArray[i]
