@@ -52,6 +52,9 @@ def retrieveInfo():
         except:
             return "Error. Wikipedia page not found."
 
+        if heading == None :
+            return wikipedia.summary(page.url)
+
         # When a page is found, split it into lines
         searchArray = page.content.split("\n")
 
@@ -70,13 +73,14 @@ def retrieveInfo():
         returnSection['page'] = str(page)
         returnSection['url'] = str(page.url)
         returnSection['heading'] = headingMarkUp.replace("==", '').strip()
+
         # Add each line after the heading until the next heading is found
         # If heading not found, return page summary
         try:
             sectionArray = pageArray[1].split("\n")
         except:
             returnSection['heading'] = "Summary"
-            returnSection["wikitext"] = wikipedia.summary(page)
+            returnSection["wikitext"] = wikipedia.summary(page.title)
             return returnSection
         
         # If heading is found, add each line to the requested text until the
