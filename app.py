@@ -15,7 +15,7 @@ def home_view():
     body += "The microservice will search for the passed wikipage and will return the first result, if available.<br>"
     body += "The response will include all article text between the specified (sub)heading and the next (sub)heading.<br>"
     body += "If a heading is not found or specified, the article summary is returned.<br><br>"
-    body += "Request:<br>https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading&sentence=SummarySentences<br><br>"
+    body += "Request:<br>https://wiki-text-scraper-361.herokuapp.com/requestText?wikipage=RequestPage&heading=RequestedHeading&sentences=SummarySentences<br><br>"
     body += 'Response:<br>[{<br>'
     body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"wikiText":"Requested Text",</div><br>'
     body += '<div>&nbsp;&nbsp;&nbsp;&nbsp;"heading":"Returned Heading"</div><br>'
@@ -41,7 +41,7 @@ def retrieveInfo():
 
         # Perform search for the wikipage (places results in
         # an array)
-        result = wikipedia.search(wikipage, results=2)
+        result = wikipedia.search(wikipage)
 
         # if the first result doesn't work, use the 2nd result
         # if neither work, return an error
@@ -59,9 +59,9 @@ def retrieveInfo():
         # When a page is found, split it into lines
         searchArray = page.content.split("\n")
 
+        count = 0
         # compare each line.lower to the headingmarkup.lower and set
         # and set headingMarkUp = line for the correct capitalization
-        count = 0
         for i in searchArray:
             if i.lower().find(headingMarkUp.lower()) == True:
                 headingMarkUp = i
