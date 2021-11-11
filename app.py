@@ -31,6 +31,7 @@ def retrieveInfo():
         # Set variables for accessing page section
         wikipage = request.args.get('wikipage', '')
         heading = request.args.get('heading', '')
+        sentences = request.args.get('sentences', '')
         headingMarkUp = "== " + heading + " =="
         returnSection = {
                 "wikitext": "",
@@ -40,7 +41,7 @@ def retrieveInfo():
 
         # Perform search for the wikipage (places results in
         # an array)
-        result = wikipedia.search(wikipage)
+        result = wikipedia.search(wikipage, results=2)
 
         # if the first result doesn't work, use the 2nd result
         # if neither work, return an error
@@ -53,14 +54,14 @@ def retrieveInfo():
             return "Error. Wikipedia page not found."
 
         if heading == None :
-            return wikipedia.summary(page.url)
+            return wikipedia.summary(page.url, sentences=sentences)
 
         # When a page is found, split it into lines
         searchArray = page.content.split("\n")
 
-        count = 0
         # compare each line.lower to the headingmarkup.lower and set
         # and set headingMarkUp = line for the correct capitalization
+        count = 0
         for i in searchArray:
             if i.lower().find(headingMarkUp.lower()) == True:
                 headingMarkUp = i
